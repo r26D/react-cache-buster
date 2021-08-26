@@ -7,7 +7,7 @@ function CacheBuster({
   isEnabled = false,
   isVerboseMode = false,
   loadingComponent = null,
-  checkInSecs = 00
+  checkInSecs = 600
 }) {
   const [counter, setCounter] = useState(0);
   const [cacheStatus, setCacheStatus] = useState({
