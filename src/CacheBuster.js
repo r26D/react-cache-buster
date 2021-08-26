@@ -6,8 +6,10 @@ function CacheBuster({
   currentVersion,
   isEnabled = false,
   isVerboseMode = false,
-  loadingComponent = null
+  loadingComponent = null,
+  checkInSecs = 00
 }) {
+  const [counter, setCounter] = useState(0);
   const [cacheStatus, setCacheStatus] = useState({
     loading: true,
     isLatestVersion: false
@@ -21,9 +23,27 @@ function CacheBuster({
     isEnabled ? checkCacheStatus() : log('React Cache Buster is disabled.');
   }, []);
 
+  useEffect(() => {
+    let interval = null;
+    if (isEnabled) {
+      interval = setInterval(() => {
+        log('React Cache Buster triggering timer')
+        setCounter(counter => counter + 1);
+      }, checkInSecs * 1000);
+      checkCacheStatus()
+    } else if (!isEnabled && interval) {
+      clearInterval(interval);
+    }
+    return () => clearInterval(interval);
+  }, [isEnabled, counter]);
+
+
   const checkCacheStatus = async () => {
     try {
-      const res = await fetch('/meta.json');
+      const res = await fetch('/meta.json', {
+        method: 'GET',
+        cache: 'no-cache'
+      });
       const { version: metaVersion } = await res.json();
 
       const shouldForceRefresh = isThereNewVersion(metaVersion, currentVersion);
