@@ -20,7 +20,7 @@
   "scripts": {
     "build": "microbundle-crl --no-compress --no-sourcemap --format modern,cjs",
     "start": "microbundle-crl watch --no-compress --no-sourcemap --format modern,cjs",
-    "prepare": "npm run build",
+    "prepublishOnly": "npm run build",
     "test": "npm run test:unit && npm run test:lint && npm run test:build",
     "test:build": "npm run build",
     "test:lint": "eslint .",
