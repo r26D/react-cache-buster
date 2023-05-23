@@ -1,6 +1,6 @@
 {
   "name": "react-cache-buster",
-  "version": "0.1.8",
+  "version": "0.2.0",
   "description": "This package allows clients to automatically check the new version when a new version is released in the production environment, and if a new version is published, clearing the cache and reload the page.",
   "author": "CagriAldemir",
   "license": "MIT",
@@ -31,23 +31,23 @@
     "buildTypes": "tsc ./src/*.js --declaration --allowJs --emitDeclarationOnly --outDir dist"
   },
   "peerDependencies": {
-    "react": "^16.14.0 || ^17.0.0"
+    "react": "^16.14.0 || ^17.0.0 || ^18.0.0"
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",
     "cross-env": "^7.0.2",
-    "eslint": "^7.26.0",
-    "gh-pages": "^2.2.0",
-    "prettier": "^2.0.4",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-scripts": "^4.0.3"
+    "eslint": "^8.41.0",
+    "gh-pages": "^5.0.0",
+    "prettier": "^2.8.8",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-scripts": "^5.0.1"
   },
   "files": [
     "dist"
   ],
   "dependencies": {
     "microbundle-crl": "^0.13.10",
-    "prop-types": "^15.7.2"
+    "prop-types": "^15.8.1"
   }
 }
