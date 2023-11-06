@@ -55,6 +55,9 @@ const App = () => {
       currentVersion={version}
       isEnabled={isProduction} //If false, the library is disabled.
       isVerboseMode={false} //If true, the library writes verbose logs to console.
+      comparisonStrategy={"by_semantic_version"} //This is the default
+      //by_equality - if they aren't the same then a new verison is out
+      //by_iso_date - use iso dates for releases - and if the date is new it forces a reload
       loadingComponent={<Loading />} //If not pass, nothing appears at the time of new version check.
     >
 

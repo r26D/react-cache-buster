@@ -1,14 +1,16 @@
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
+import {parseISO} from 'date-fns'
 
 function CacheBuster({
-  children = null,
-  currentVersion,
-  isEnabled = false,
-  isVerboseMode = false,
-  loadingComponent = null,
-  checkInSecs = 600
-}) {
+                       children = null,
+                       currentVersion,
+                       isEnabled = false,
+                       isVerboseMode = false,
+                       loadingComponent = null,
+                       comparisonStrategy = "by_semantic_version",
+                       checkInSecs = 600
+                     }) {
   const [counter, setCounter] = useState(0);
   const [cacheStatus, setCacheStatus] = useState({
     loading: true,
@@ -44,9 +46,9 @@ function CacheBuster({
         method: 'GET',
         cache: 'no-cache'
       });
-      const { version: metaVersion } = await res.json();
+      const {version: metaVersion} = await res.json();
 
-      const shouldForceRefresh = isThereNewVersion(metaVersion, currentVersion);
+      const shouldForceRefresh = isThereNewVersion(comparisonStrategy, metaVersion, currentVersion);
       if (shouldForceRefresh) {
         log(`There is a new version (v${metaVersion}). Should force refresh.`);
         setCacheStatus({
@@ -66,17 +68,43 @@ function CacheBuster({
 
       //Since there is an error, if isVerboseMode is false, the component is configured as if it has the latest version.
       !isVerboseMode &&
-        setCacheStatus({
-          loading: false,
-          isLatestVersion: true
-        });
+      setCacheStatus({
+        loading: false,
+        isLatestVersion: true
+      });
     }
   };
 
-  const isThereNewVersion = (metaVersion, currentVersion) => {
+  const isThereNewVersion = (comparisonStrategy, metaVersion, currentVersion) => {
     if (!currentVersion) {
       return false;
     }
+
+    if (comparisonStrategy === "by_equality") {
+      return notEqual(metaVersion, currentVersion)
+    } else if (comparisonStrategy === "by_iso_date") {
+      return compareDate(metaVersion, currentVersion)
+    } else
+      return semanticCompare(metaVersion, currentVersion)
+  }
+  const notEqual = (metaVersion, currentVersion) => {
+    return `${metaVersion}` !== `${currentVersion}`
+  };
+  const compareDate = (metaVersion, currentVersion) => {
+    const currentDate = parseISO(currentVersion)
+    if (!currentDate) {
+      return false
+    }
+    const metaDate = parseISO(metaVersion)
+    if (!metaDate) {
+      return false
+    }
+
+    return metaDate > currentDate
+  };
+
+
+  const semanticCompare = (metaVersion, currentVersion) => {
     const metaVersions = metaVersion.split(/\./g);
     const currentVersions = currentVersion.split(/\./g);
 
@@ -131,4 +159,4 @@ CacheBuster.propTypes = {
   loadingComponent: PropTypes.element
 };
 
-export { CacheBuster };
+export {CacheBuster};

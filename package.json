@@ -37,8 +37,8 @@
     "babel-eslint": "^10.1.0",
     "cross-env": "^7.0.2",
     "eslint": "^8.41.0",
-    "gh-pages": "^5.0.0",
-    "prettier": "^2.8.8",
+    "gh-pages": "^6.0.0",
+    "prettier": "^3.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "^5.0.1"
@@ -47,6 +47,7 @@
     "dist"
   ],
   "dependencies": {
+    "date-fns": "^2.30.0",
     "microbundle-crl": "^0.13.10",
     "prop-types": "^15.8.1"
   }
