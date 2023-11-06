@@ -14,6 +14,9 @@
   "main": "dist/index.js",
   "module": "dist/index.modern.js",
   "source": "src/*.js",
+  "exports": {
+    ".": "./index.js"
+  },
   "engines": {
     "node": ">=10"
   },
