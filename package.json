@@ -21,6 +21,7 @@
     "node": ">=10"
   },
   "scripts": {
+    "prepare": "microbundle-crl --no-compress --no-sourcemap --format modern,cjs",
     "build": "microbundle-crl --no-compress --no-sourcemap --format modern,cjs",
     "start": "microbundle-crl watch --no-compress --no-sourcemap --format modern,cjs",
     "prepublishOnly": "npm run build",
